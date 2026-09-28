@@ -1,0 +1,22 @@
+{
+  "name": "@pulsetrace/worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@pulsetrace/database": "workspace:*",
+    "@pulsetrace/metrics": "workspace:*",
+    "@pulsetrace/telemetry": "workspace:*",
+    "@pulsetrace/types": "workspace:*",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
+  }
+}

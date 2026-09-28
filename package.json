@@ -1,0 +1,22 @@
+{
+  "name": "pulsetrace-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "db:generate": "pnpm --filter @pulsetrace/database run db:generate",
+    "db:push": "pnpm --filter @pulsetrace/database run db:push",
+    "db:seed": "pnpm --filter @pulsetrace/database run db:seed"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "turbo": "^2.1.2",
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@11.23.0",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

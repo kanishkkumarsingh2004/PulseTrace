@@ -1,0 +1,264 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum IncidentStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
+enum HealthStatus {
+  UP
+  DOWN
+  UNKNOWN
+}
+
+model User {
+  id           String          @id @default(uuid())
+  email        String          @unique
+  passwordHash String
+  name         String
+  role         Role            @default(MEMBER)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  memberships  ProjectMember[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("sessions")
+}
+
+model Project {
+  id           String          @id @default(uuid())
+  name         String
+  description  String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  members      ProjectMember[]
+  environments Environment[]
+  services     Service[]
+  apiKeys      ApiKey[]
+  alertRules   AlertRule[]
+  incidents    Incident[]
+  healthChecks HealthCheck[]
+  metricBuckets MetricBucket[]
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  projectId String
+  userId    String
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@map("project_members")
+}
+
+model Environment {
+  id        String   @id @default(uuid())
+  projectId String
+  name      String   // e.g. production, staging, development
+  createdAt DateTime @default(now())
+
+  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  services Service[]
+  apiKeys  ApiKey[]
+
+  @@unique([projectId, name])
+  @@map("environments")
+}
+
+model Service {
+  id            String        @id @default(uuid())
+  projectId     String
+  environmentId String?
+  name          String
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  environment Environment? @relation(fields: [environmentId], references: [id], onDelete: SetNull)
+  endpoints   Endpoint[]
+  metricBuckets MetricBucket[]
+  alertRules  AlertRule[]
+  incidents   Incident[]
+  healthChecks HealthCheck[]
+
+  @@unique([projectId, name])
+  @@map("services")
+}
+
+model Endpoint {
+  id        String   @id @default(uuid())
+  serviceId String
+  method    String   // GET, POST, etc.
+  path      String   // raw path
+  route     String   // normalized route string e.g. /api/users/:id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  service       Service        @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  metricBuckets MetricBucket[]
+
+  @@unique([serviceId, method, route])
+  @@map("endpoints")
+}
+
+model ApiKey {
+  id            String    @id @default(uuid())
+  projectId     String
+  environmentId String?
+  keyPrefix     String    // e.g. pt_live_
+  keyHash       String    // bcrypt or sha256 hash of key secret
+  name          String
+  isRevoked     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  lastUsedAt    DateTime?
+
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  environment Environment? @relation(fields: [environmentId], references: [id], onDelete: SetNull)
+
+  @@index([keyPrefix])
+  @@map("api_keys")
+}
+
+model MetricBucket {
+  id               String   @id @default(uuid())
+  projectId        String
+  serviceId        String
+  endpointId       String?
+  environment      String   @default("production")
+  window           String   // '1m', '5m', '1h', '1d'
+  bucketStart      DateTime
+  requestCount     Int      @default(0)
+  errorCount       Int      @default(0)
+  errorRate        Float    @default(0)
+  p50              Float    @default(0)
+  p75              Float    @default(0)
+  p90              Float    @default(0)
+  p95              Float    @default(0)
+  p99              Float    @default(0)
+  minLatencyMs     Float    @default(0)
+  maxLatencyMs     Float    @default(0)
+  avgLatencyMs     Float    @default(0)
+  cpuUsagePercent  Float?
+  memoryUsageBytes BigInt?
+
+  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  service  Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  endpoint Endpoint? @relation(fields: [endpointId], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, serviceId, endpointId, window, bucketStart])
+  @@index([projectId, bucketStart])
+  @@index([serviceId, bucketStart])
+  @@map("metric_buckets")
+}
+
+model AlertRule {
+  id                      String   @id @default(uuid())
+  projectId               String
+  serviceId               String?
+  name                    String
+  metricType              String   // latency_p95, latency_p99, error_rate, throughput_rps, cpu_usage, memory_usage
+  operator                String   // gt, gte, lt, lte, eq
+  threshold               Float
+  evaluationWindowMinutes Int      @default(5)
+  severity                String   @default("critical") // critical, warning, info
+  enabled                 Boolean  @default(true)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  service   Service?   @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  incidents Incident[]
+
+  @@map("alert_rules")
+}
+
+model Incident {
+  id             String         @id @default(uuid())
+  ruleId         String
+  projectId      String
+  serviceId      String?
+  metricType     String
+  threshold      Float
+  triggerValue   Float
+  status         IncidentStatus @default(OPEN)
+  triggeredAt    DateTime       @default(now())
+  acknowledgedAt DateTime?
+  resolvedAt     DateTime?
+
+  rule    AlertRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  project Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  service Service?  @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, status])
+  @@map("incidents")
+}
+
+model HealthCheck {
+  id              String              @id @default(uuid())
+  projectId       String
+  serviceId       String?
+  name            String
+  url             String
+  method          String              @default("GET")
+  intervalSeconds Int                 @default(60)
+  timeoutMs       Int                 @default(5000)
+  expectedStatus  Int                 @default(200)
+  enabled         Boolean             @default(true)
+  status          HealthStatus        @default(UNKNOWN)
+  lastCheckedAt   DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  project Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  service Service?            @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  results HealthCheckResult[]
+
+  @@map("health_checks")
+}
+
+model HealthCheckResult {
+  id             String       @id @default(uuid())
+  healthCheckId  String
+  status         HealthStatus
+  responseTimeMs Int
+  statusCode     Int?
+  error          String?
+  checkedAt      DateTime     @default(now())
+
+  healthCheck HealthCheck @relation(fields: [healthCheckId], references: [id], onDelete: Cascade)
+
+  @@index([healthCheckId, checkedAt])
+  @@map("health_check_results")
+}
