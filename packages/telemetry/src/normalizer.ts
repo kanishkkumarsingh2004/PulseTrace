@@ -3,22 +3,27 @@
  * into template routes (/users/:id/orders/:id) if route wasn't explicitly supplied.
  */
 export function normalizeRoutePattern(path: string): string {
-  if (!path) return '/';
-  
+  if (!path) return "/";
+
   // Strip query strings
-  const cleanPath = path.split('?')[0];
+  const cleanPath = path.split("?")[0];
 
   // Regex patterns for common path variables (UUIDs, integer IDs, hashes)
-  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  const uuidRegex =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
   const numericIdRegex = /^\d+$/;
   const hashIdRegex = /^[0-9a-fA-F]{24,}$/;
 
-  const segments = cleanPath.split('/').map((segment) => {
-    if (uuidRegex.test(segment) || numericIdRegex.test(segment) || hashIdRegex.test(segment)) {
-      return ':id';
+  const segments = cleanPath.split("/").map((segment) => {
+    if (
+      uuidRegex.test(segment) ||
+      numericIdRegex.test(segment) ||
+      hashIdRegex.test(segment)
+    ) {
+      return ":id";
     }
     return segment;
   });
 
-  return segments.join('/') || '/';
+  return segments.join("/") || "/";
 }

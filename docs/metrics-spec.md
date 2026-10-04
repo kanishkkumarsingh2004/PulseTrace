@@ -12,13 +12,13 @@ This document defines the canonical metrics used by PulseTrace to measure API pe
 
 The purpose of this specification is to ensure that every metric has:
 
-* A precise definition
-* A defined unit
-* A defined calculation method
-* A defined aggregation strategy
-* A defined time window
-* A known data source
-* Explicit missing-data semantics
+- A precise definition
+- A defined unit
+- A defined calculation method
+- A defined aggregation strategy
+- A defined time window
+- A known data source
+- Explicit missing-data semantics
 
 PulseTrace MUST NOT expose a metric whose meaning is ambiguous.
 
@@ -2185,15 +2185,15 @@ Area chart
 
 Graphs MUST:
 
-* Show units
-* Show timestamps
-* Support hover details
-* Handle null values
-* Handle missing data
-* Handle spikes
-* Show selected time range
-* Indicate sampling where applicable
-* Avoid visually implying zero when data is unavailable
+- Show units
+- Show timestamps
+- Support hover details
+- Handle null values
+- Handle missing data
+- Handle spikes
+- Show selected time range
+- Indicate sampling where applicable
+- Avoid visually implying zero when data is unavailable
 
 ---
 

@@ -5,10 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-    "db:generate": "pnpm --filter @pulsetrace/database run db:generate",
-    "db:push": "pnpm --filter @pulsetrace/database run db:push",
-    "db:seed": "pnpm --filter @pulsetrace/database run db:seed"
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
   },
   "devDependencies": {
     "prettier": "^3.3.3",

@@ -207,7 +207,7 @@ const data: TelemetryEvent = ...
 If an external value is unknown:
 
 ```ts
-unknown
+unknown;
 ```
 
 must be used and validated before access.
@@ -374,11 +374,11 @@ Unknown fields must not silently alter the canonical model.
 
 Telemetry timestamps must:
 
-* Use UTC internally.
-* Use ISO-8601 where human-readable timestamps are required.
-* Be validated.
-* Prevent unreasonable future timestamps.
-* Support clock skew within a defined tolerance.
+- Use UTC internally.
+- Use ISO-8601 where human-readable timestamps are required.
+- Be validated.
+- Prevent unreasonable future timestamps.
+- Support clock skew within a defined tolerance.
 
 The platform must not silently mix local time zones with UTC.
 
@@ -668,7 +668,7 @@ Do not force extremely high-volume telemetry workloads through Prisma.
 Avoid uncontrolled:
 
 ```ts
-findMany()
+findMany();
 ```
 
 on large datasets.
@@ -1853,12 +1853,12 @@ Each independently scalable service should be deployable separately.
 
 Containers should:
 
-* Run as non-root where practical.
-* Have health checks.
-* Use pinned base images.
-* Avoid unnecessary packages.
-* Have predictable startup behavior.
-* Receive configuration through environment variables.
+- Run as non-root where practical.
+- Have health checks.
+- Use pinned base images.
+- Avoid unnecessary packages.
+- Have predictable startup behavior.
+- Receive configuration through environment variables.
 
 ---
 

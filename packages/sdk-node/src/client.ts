@@ -1,4 +1,4 @@
-import { TelemetryPayload, TelemetryBatch } from '@pulsetrace/types';
+import { TelemetryPayload, TelemetryBatch } from "@pulsetrace/types";
 
 export interface PulseTraceConfig {
   apiKey: string;
@@ -21,21 +21,24 @@ export class PulseTraceSDK {
 
   constructor(config: PulseTraceConfig) {
     this.apiKey = config.apiKey;
-    this.endpointUrl = config.endpointUrl || 'http://localhost:4000/api/v1/telemetry';
+    this.endpointUrl =
+      config.endpointUrl || "http://localhost:4000/api/v1/telemetry";
     this.serviceName = config.serviceName;
-    this.environment = config.environment || 'production';
+    this.environment = config.environment || "production";
     this.maxBatchSize = config.maxBatchSize || 50;
     this.flushIntervalMs = config.flushIntervalMs || 2000;
 
     this.startPeriodicFlush();
   }
 
-  public track(event: Omit<TelemetryPayload, 'serviceName' | 'environment' | 'sdkVersion'>): void {
+  public track(
+    event: Omit<TelemetryPayload, "serviceName" | "environment" | "sdkVersion">,
+  ): void {
     const payload: TelemetryPayload = {
       ...event,
       serviceName: this.serviceName,
       environment: this.environment,
-      sdkVersion: 'node-0.1.0',
+      sdkVersion: "node-0.1.0",
     };
 
     this.queue.push(payload);
@@ -71,9 +74,9 @@ export class PulseTraceSDK {
 
     try {
       await fetch(this.endpointUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(batch),
       });

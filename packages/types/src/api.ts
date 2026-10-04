@@ -18,18 +18,3 @@ export interface ApiResponseError {
 }
 
 export type ApiResponse<T> = ApiResponseSuccess<T> | ApiResponseError;
-
-export interface AuthUser {
-  id: string;
-  email: string;
-  name: string;
-  role: 'ADMIN' | 'MEMBER' | 'VIEWER';
-}
-
-export interface JWTPayload {
-  sub: string;
-  email: string;
-  role: string;
-  iat?: number;
-  exp?: number;
-}

@@ -25,9 +25,5 @@ pnpm-debug.log*
 .idea/
 .vscode/
 
-# Prisma / DB
-prisma/*.db
-prisma/*.db-journal
-
 # Turborepo
 .turbo/

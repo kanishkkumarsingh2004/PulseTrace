@@ -1,4 +1,4 @@
-import { Percentiles } from '@pulsetrace/types';
+import { Percentiles } from "@pulsetrace/types";
 
 /**
  * Calculates exact percentiles (p50, p75, p90, p95, p99) from an array of numbers using

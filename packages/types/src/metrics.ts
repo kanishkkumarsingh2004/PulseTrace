@@ -1,4 +1,4 @@
-export type MetricWindow = '1m' | '5m' | '1h' | '1d';
+export type MetricWindow = "1m" | "5m" | "1h" | "1d";
 
 export interface Percentiles {
   p50: number;

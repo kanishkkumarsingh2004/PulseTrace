@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'PulseTrace — Modern API Observability & Performance Monitoring',
-  description: 'Real-time telemetry, latency percentiles, error rate tracking, and synthetic health checks for microservices.',
+  title: "PulseTrace — Website Performance & Load Analysis",
+  description:
+    "Enter any URL. Discover endpoints via robots.txt and sitemap.xml, simulate 1000 virtual users, and get a detailed performance report with latency percentiles, RPS, error rate, and availability.",
 };
 
 export default function RootLayout({

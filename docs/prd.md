@@ -17,25 +17,25 @@ PulseTrace is an API observability platform designed to monitor, analyze, and vi
 
 The platform collects API request telemetry and converts it into actionable metrics such as:
 
-* Request count
-* Requests per second
-* Response time
-* Latency
-* P50/P75/P90/P95/P99 latency
-* Throughput
-* Error rate
-* HTTP status distribution
-* Timeout rate
-* Endpoint performance
-* Resource utilization
-* CPU usage
-* Memory usage
-* Network usage
-* Availability
-* Request success rate
-* Dependency performance
-* Traffic patterns
-* Performance anomalies
+- Request count
+- Requests per second
+- Response time
+- Latency
+- P50/P75/P90/P95/P99 latency
+- Throughput
+- Error rate
+- HTTP status distribution
+- Timeout rate
+- Endpoint performance
+- Resource utilization
+- CPU usage
+- Memory usage
+- Network usage
+- Availability
+- Request success rate
+- Dependency performance
+- Traffic patterns
+- Performance anomalies
 
 PulseTrace provides both:
 
@@ -52,15 +52,15 @@ Modern applications may expose dozens or hundreds of APIs.
 
 Traditional log-based monitoring makes it difficult to answer questions such as:
 
-* Which endpoint is currently slow?
-* What is the current request rate?
-* Which API is producing the most errors?
-* Did latency increase after a deployment?
-* What is the P95 response time?
-* Which endpoints are consuming the most resources?
-* Are failures concentrated around a particular status code?
-* Is the service approaching capacity?
-* Is the API experiencing abnormal traffic?
+- Which endpoint is currently slow?
+- What is the current request rate?
+- Which API is producing the most errors?
+- Did latency increase after a deployment?
+- What is the P95 response time?
+- Which endpoints are consuming the most resources?
+- Are failures concentrated around a particular status code?
+- Is the service approaching capacity?
+- Is the API experiencing abnormal traffic?
 
 PulseTrace solves this by providing a centralized observability layer for API traffic.
 
@@ -76,13 +76,13 @@ Display live API activity with minimal delay.
 
 Users should be able to observe:
 
-* Requests/sec
-* Active requests
-* Response time
-* Error rate
-* Status codes
-* Throughput
-* Endpoint activity
+- Requests/sec
+- Active requests
+- Response time
+- Error rate
+- Status codes
+- Throughput
+- Endpoint activity
 
 ---
 
@@ -125,12 +125,12 @@ Dependency failures
 
 Store historical metrics so users can investigate:
 
-* Hourly performance
-* Daily performance
-* Weekly performance
-* Traffic patterns
-* Error trends
-* Latency trends
+- Hourly performance
+- Daily performance
+- Weekly performance
+- Traffic patterns
+- Error trends
+- Latency trends
 
 ---
 
@@ -174,13 +174,13 @@ Each endpoint should have its own metrics.
 
 The initial version should NOT attempt to become:
 
-* A complete APM platform
-* A Kubernetes management platform
-* A cloud infrastructure management platform
-* A log aggregation replacement
-* A full distributed tracing platform
-* A security/SIEM platform
-* An automated incident-response platform
+- A complete APM platform
+- A Kubernetes management platform
+- A cloud infrastructure management platform
+- A log aggregation replacement
+- A full distributed tracing platform
+- A security/SIEM platform
+- An automated incident-response platform
 
 These can become future products/features.
 
@@ -319,18 +319,18 @@ import { PulseTrace } from "@pulsetrace/node";
 
 const pulse = new PulseTrace({
   apiKey: process.env.PULSETRACE_API_KEY,
-  service: "payment-service"
+  service: "payment-service",
 });
 ```
 
 The SDK should automatically capture:
 
-* HTTP requests
-* HTTP responses
-* Request duration
-* Status codes
-* Errors
-* Process metrics
+- HTTP requests
+- HTTP responses
+- Request duration
+- Status codes
+- Errors
+- Process metrics
 
 ---
 
@@ -973,11 +973,11 @@ pt_live_xxxxxxxxx
 
 Keys should:
 
-* Be hashed where possible
-* Be revocable
-* Support rotation
-* Have project-level scope
-* Never appear in telemetry responses
+- Be hashed where possible
+- Be revocable
+- Support rotation
+- Have project-level scope
+- Never appear in telemetry responses
 
 ---
 
@@ -1985,39 +1985,39 @@ Version 1 should contain only:
 
 ### Dashboard
 
-* Request rate
-* Error rate
-* Average latency
-* P95 latency
-* P99 latency
-* Throughput
-* Status codes
+- Request rate
+- Error rate
+- Average latency
+- P95 latency
+- P99 latency
+- Throughput
+- Status codes
 
 ### Monitoring
 
-* Projects
-* Services
-* Endpoints
-* API keys
+- Projects
+- Services
+- Endpoints
+- API keys
 
 ### Collection
 
-* Node.js SDK
-* Node.js middleware
+- Node.js SDK
+- Node.js middleware
 
 ### Visualization
 
-* Live charts
-* Historical charts
-* Endpoint tables
+- Live charts
+- Historical charts
+- Endpoint tables
 
 ### Infrastructure
 
-* PostgreSQL
-* Prisma
-* Redis
-* Node.js
-* Next.js
+- PostgreSQL
+- Prisma
+- Redis
+- Node.js
+- Next.js
 
 ---
 

@@ -16,28 +16,28 @@ Telemetry represents an observation of an API request handled by a monitored ser
 
 PulseTrace telemetry is designed to capture:
 
-* Request latency
-* Response status
-* Throughput
-* Error rate
-* Request/response size
-* Endpoint information
-* Service information
-* Runtime/resource information
-* Deployment/environment information
-* Trace/request correlation identifiers
-* Timing information
-* Optional metadata
+- Request latency
+- Response status
+- Throughput
+- Error rate
+- Request/response size
+- Endpoint information
+- Service information
+- Runtime/resource information
+- Deployment/environment information
+- Trace/request correlation identifiers
+- Timing information
+- Optional metadata
 
 The telemetry system MUST be:
 
-* Non-blocking for monitored applications
-* Bounded in memory
-* Validated at ingestion
-* Versioned
-* Tenant-isolated
-* Privacy-conscious
-* Resilient to temporary PulseTrace failures
+- Non-blocking for monitored applications
+- Bounded in memory
+- Validated at ingestion
+- Versioned
+- Tenant-isolated
+- Privacy-conscious
+- Resilient to temporary PulseTrace failures
 
 ---
 
@@ -103,13 +103,13 @@ Worker
 
 Control-plane data:
 
-* Users
-* Organizations
-* Projects
-* Services
-* Environments
-* API keys
-* Alert configurations
+- Users
+- Organizations
+- Projects
+- Services
+- Environments
+- API keys
+- Alert configurations
 
 MUST NOT be mixed with high-volume telemetry storage.
 
@@ -483,9 +483,9 @@ Where available, telemetry MAY contain:
 {
   "performance": {
     "durationMs": 124.72,
-    "dnsDurationMs": 2.10,
+    "dnsDurationMs": 2.1,
     "tcpDurationMs": 3.21,
-    "tlsDurationMs": 4.10,
+    "tlsDurationMs": 4.1,
     "networkDurationMs": 8.21,
     "serverDurationMs": 116.51
   }
@@ -767,7 +767,7 @@ For Node.js services, the SDK MAY capture:
     "heapUsedBytes": 142000000,
     "heapTotalBytes": 210000000,
     "externalBytes": 21000000,
-    "arrayBuffersBytes": 5000000,
+    "arrayBuffersBytes": 50000000000,
     "eventLoopUtilization": 0.72
   }
 }
@@ -1235,12 +1235,12 @@ Authorization: Bearer pt_live_xxxxxxxxx
 
 API keys MUST:
 
-* Be generated securely
-* Be revocable
-* Be scoped
-* Never be logged
-* Never be returned after creation in plaintext
-* Be rotatable
+- Be generated securely
+- Be revocable
+- Be scoped
+- Never be logged
+- Never be returned after creation in plaintext
+- Be rotatable
 
 ---
 
@@ -1582,7 +1582,7 @@ Timeout events MAY contain:
     "type": "timeout"
   },
   "performance": {
-    "durationMs": 5000
+    "durationMs": 50000000
   }
 }
 ```
@@ -2278,18 +2278,18 @@ Telemetry status: HEALTHY
 
 Telemetry infrastructure MUST:
 
-* Require TLS in production
-* Validate API keys
-* Enforce tenant boundaries
-* Rate-limit ingestion
-* Validate payload sizes
-* Sanitize metadata
-* Prevent log injection
-* Prevent secret leakage
-* Avoid raw credential logging
-* Restrict database access
-* Restrict Redis access
-* Use secret management in production
+- Require TLS in production
+- Validate API keys
+- Enforce tenant boundaries
+- Rate-limit ingestion
+- Validate payload sizes
+- Sanitize metadata
+- Prevent log injection
+- Prevent secret leakage
+- Avoid raw credential logging
+- Restrict database access
+- Restrict Redis access
+- Use secret management in production
 
 ---
 
